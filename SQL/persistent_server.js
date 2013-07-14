@@ -21,12 +21,12 @@ var dbConnection = mysql.createConnection({
   database: "chat"
 });
 
-exports.db = function(query) {
+exports.db = function(query, cb) {
   console.log("Database query! Yay!");
-  dbConnection.connect();
-  dbConnection.query(query);
-  dbConnection.end();
-  console.log("Ended our query!");
+  //dbConnection.connect();
+  dbConnection.query(query, cb);
+  //dbConnection.end();
+  //console.log("Ended our query!");
 };
 
 // POST

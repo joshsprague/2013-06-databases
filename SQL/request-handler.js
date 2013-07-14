@@ -43,15 +43,15 @@ var handleRequest = function(request, response) {
     response.write(styles);
     response.end();
   }
-  // if (request.method === "GET"){
-    // if (messages[request.url]){
-    //   response.writeHead(200, headers);
-    //   response.end(JSON.stringify(messages[request.url]));
-    // } else {
-    //   response.writeHead(404, headers);
-    //   response.end("FILE NOT FOUND");
-    // }
-  if (request.method === "POST"){
+
+  if (request.method === "GET" && request.url === '/classes/room1') {
+    response.writeHead(200, headers);
+    server.db("SELECT * from messages;", function(err, rows, fields) {
+      response.end(JSON.stringify(rows));
+    });
+  }
+
+  else if (request.method === "POST") {
     console.log("Got into the POST request loop!");
     request.addListener("data", function(data) {
       var parsedData = JSON.parse(data);
@@ -60,7 +60,9 @@ var handleRequest = function(request, response) {
     response.writeHead(201, headers);
     response.end("Success");
     console.log("Finished the POST request loop!");
-  } else {
+  }
+
+  else {
     response.writeHead(406, headers);
     response.end("Please submit only GET or POST requests");
   }
